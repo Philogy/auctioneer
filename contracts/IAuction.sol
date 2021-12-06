@@ -4,6 +4,15 @@ pragma solidity ^0.8.10;
 import "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 
 interface IAuction {
+    
+    event Init(address _beneficiary,
+        uint256 _startingBid,
+        uint256 _auctionEnd);
+
+    event Settle(uint256 winningBid, address winner);
+
+    event Bid(address bidder, uint256 bidValue);
+
     function init(
         address _beneficiary,
         uint256 _startingBid,
