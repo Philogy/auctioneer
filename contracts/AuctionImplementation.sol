@@ -39,6 +39,7 @@ contract AuctionImplementation is
         minIncrease = _minIncrease;
         auctionEnd = _auctionEnd;
         minimumEnd = _minimumEnd;
+        emit Init(_beneficiary, _startingBid, _auctionEnd);
     }
 
     function onERC721Received(
@@ -58,8 +59,8 @@ contract AuctionImplementation is
         uint256 prevBid = topBid;
         topBidder = msg.sender;
         topBid = msg.value;
+        emit Bid(msg.sender, msg.value);
         _checkMinimumEnd();
-
         // solhint-disable-next-line avoid-low-level-calls
         if (prevBidder != address(0)) prevBidder.call{value: prevBid}("");
     }
@@ -71,8 +72,10 @@ contract AuctionImplementation is
         topBid = 0;
         if (topBidder == address(0)) {
             topBidder = beneficiary;
+            emit Settle(0, beneficiary);
         } else {
             beneficiary.call{value: winningBid}("");
+            emit Settle(winningBid, topBidder);
         }
     }
 
