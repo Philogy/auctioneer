@@ -96,7 +96,7 @@ contract AuctionImplementation is
     }
 
     function getAuctionEnded() public view returns (bool) {
-        return block.timestamp < auctionEnd;
+        return block.timestamp > auctionEnd;
     }
 
     function _checkMinimumEnd() internal {
